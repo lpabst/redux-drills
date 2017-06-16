@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { addGuest, removeGuest } from './ducks/guestList';
+import { addGuest, removeGuest, updateGuest } from './ducks/guestList';
 import { connect } from 'react-redux';
 import EditGuest from './components/EditGuest/EditGuest';
 import './App.css';
@@ -19,6 +19,7 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.editName = this.editName.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.updateGuest = this.updateGuest.bind(this);
   }
 
   editName(guest, i) {
@@ -34,6 +35,7 @@ class App extends Component {
       text: e.target.value
     })
   }
+  
   handleSubmit(e) {
     e.preventDefault();
     this.props.addGuest(this.state.text);
@@ -46,6 +48,10 @@ class App extends Component {
     this.setState({
       edit: false
     })
+  }
+
+  updateGuest(newName){
+    this.props.updateGuest(this.state.guestIndex, newName);
   }
 
   render() {
@@ -84,7 +90,11 @@ class App extends Component {
         </form>
         {
            this.state.edit ?
-                <EditGuest />
+                <EditGuest 
+                hide={this.hideModal}
+                updateGuest={this.updateGuest}
+                guest={ this.state.guestToEdit }
+                guestIndex={ this.state.guestIndex } />
                 : null
         }
       </div>
@@ -98,4 +108,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps,{ addGuest, removeGuest })(App);
+export default connect(mapStateToProps,{ addGuest, removeGuest, updateGuest })(App);

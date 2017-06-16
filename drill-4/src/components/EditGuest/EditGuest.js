@@ -5,7 +5,7 @@ class EditGuest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: this.props.guest
+      text: props.guest
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.update = this.update.bind(this);
@@ -18,7 +18,12 @@ class EditGuest extends Component {
   }
 
   update() {
-    // update guest name function
+    this.props.updateGuest(this.state.text);
+    //another thing we could do is tie this Component into the 
+    //store directly and have this function fire off this.props.updateGuest,
+    //which it would then be receiving from the store, and it would
+    //affect the store directly. we would pull the index down as a prop
+    //from the parent Component and pass that in here.
     this.props.hide();
   }
 
